@@ -13,14 +13,20 @@ class List extends Component {
     let startTime = new Date();
 	  startTime = startTime.getHours()+":"+startTime.getMinutes();
     this.setState({
-      periodList: periodList.concat(<Period name="test" startTime={startTime} endTime="null" />)
+      periodList: [...this.state.periodList, {startTime: startTime}]
     });
+    console.log(periodList);
+
   }
 
   render() {
+    console.log(this.state.periodList);
+    const periodList = this.state.periodList.map((period) => 
+      <Period name="test" startTime={period.startTime} endTime="null" />
+    );
     return (
 	    <div className="periodList">
-	      <table><tbody>{this.state.periodList}</tbody></table>
+	      <table><tbody>{periodList}</tbody></table>
 	      <button onClick={this.addPeriod}>Add period</button>
 	    </div>
     );
