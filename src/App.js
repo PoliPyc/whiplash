@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 class List extends Component {
@@ -46,9 +47,15 @@ class List extends Component {
       <Period name="test" startTime={period.startTime} endTime={period.endTime} />
     );
     return (
-	    <div className="periodList">
-	      <table><tbody>{periodList}</tbody></table>
-	      <button onClick={this.addPeriod}>Add period</button>
+	    <div className="periodList row">
+        <div className="col-sm-10">
+  	      <table className="table table-striped table-bordered">
+            <tbody>{periodList}</tbody>
+          </table>
+        </div>
+        <div className="col-sm-2">
+  	      <button className="btn" onClick={this.addPeriod}>Add period</button>
+        </div>
 	    </div>
     );
   }
@@ -63,8 +70,8 @@ class Period extends Component {
 class App extends Component {
   render() {
     return (
-      <div className="App">
-	<List></List>
+      <div className="container">
+        	<List></List>
       </div>
     );
   }
