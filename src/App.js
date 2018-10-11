@@ -5,15 +5,26 @@ import './App.css';
 class List extends Component {
   constructor(props) {
     super(props);
-    this.state = {periodList: []};
+    let startDate = new Date();
+    startDate.setHours(8,0,0,0);
+    this.state = {
+      periodList: [],
+      previousDate: startDate
+    };
     this.addPeriod = this.addPeriod.bind(this);
   }
   addPeriod(event) {
     const periodList = this.state.periodList;
-    let startTime = new Date();
-	  startTime = startTime.getHours()+":"+startTime.getMinutes();
+    let endDate = new Date();
+    let startMinute = this.state.previousDate.getMinutes()+1;
+    let startTime = this.state.previousDate.getHours()+":"+startMinute;
+	  let endTime = endDate.getHours()+":"+endDate.getMinutes();
     this.setState({
-      periodList: [...this.state.periodList, {startTime: startTime}]
+      periodList: [...this.state.periodList, {
+        startTime: startTime,
+        endTime: endTime 
+      }],
+      previousDate: endDate
     });
     console.log(periodList);
 
@@ -22,7 +33,7 @@ class List extends Component {
   render() {
     console.log(this.state.periodList);
     const periodList = this.state.periodList.map((period) => 
-      <Period name="test" startTime={period.startTime} endTime="null" />
+      <Period name="test" startTime={period.startTime} endTime={period.endTime} />
     );
     return (
 	    <div className="periodList">
