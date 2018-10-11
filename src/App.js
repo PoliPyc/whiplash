@@ -7,8 +7,14 @@ class List extends Component {
     super(props);
     let startDate = new Date();
     startDate.setHours(8,0,0,0);
+    let periodList = localStorage.getItem('periodList');
+    if(periodList === null) {
+      periodList = [];
+    } else {
+      periodList = JSON.parse(periodList);
+    }
     this.state = {
-      periodList: [],
+      periodList: periodList,
       previousDate: startDate
     };
     this.addPeriod = this.addPeriod.bind(this);
@@ -18,16 +24,20 @@ class List extends Component {
     let endDate = new Date();
     let startMinute = this.state.previousDate.getMinutes()+1;
     let startTime = this.state.previousDate.getHours()+":"+startMinute;
-	  let endTime = endDate.getHours()+":"+endDate.getMinutes();
-    this.setState({
-      periodList: [...this.state.periodList, {
-        startTime: startTime,
-        endTime: endTime 
-      }],
-      previousDate: endDate
+    let endTime = endDate.getHours()+":"+endDate.getMinutes();
+    let newPeriodList = [...this.state.periodList, {
+                        startTime: startTime,
+                        endTime: endTime 
+                      }];
+    localStorage.setItem('periodList', JSON.stringify(newPeriodList));
+    this.setState((state, period) => {
+      return {
+        periodList: newPeriodList,
+        previousDate: endDate
+      }
     });
-    console.log(periodList);
-
+    console.log(newPeriodList);
+    
   }
 
   render() {
