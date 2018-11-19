@@ -18,8 +18,10 @@ export default class PeriodList extends Component {
         previousDate: startDate
       };
       this.addPeriod = this.addPeriod.bind(this);
+      this.removePeriod = this.removePeriod.bind(this);
       this.clearTable = this.clearTable.bind(this);
     }
+
     addPeriod(event) {
       const periodList = this.state.periodList;
       let endDate = new Date();
@@ -41,6 +43,14 @@ export default class PeriodList extends Component {
       
     }
 
+    removePeriod(key) {
+      this.setState((state) => {
+        return {
+          periodList: this.state.periodList.filter((period, periodKey) => periodKey != key )
+        }
+      });
+    }
+
     clearTable(event) {
         let answer = window.confirm('U sure?');
         if(answer === true) {
@@ -55,7 +65,7 @@ export default class PeriodList extends Component {
     render() {
       console.log(this.state.periodList);
       const periodList = this.state.periodList.map((period) => 
-        <Period name="test" startTime={period.startTime} endTime={period.endTime} />
+        <Period name="test" startTime={period.startTime} endTime={period.endTime} removePeriod={this.removePeriod} />
       );
       return (
           <div className="periodList row">
