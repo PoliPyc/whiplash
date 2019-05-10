@@ -5,18 +5,22 @@ import './PeriodList.css';
 export default class PeriodList extends Component {
     constructor(props) {
       super(props);
+
       let startDate = new Date();
       startDate.setHours(8,0,0,0);
+
       let periodList = localStorage.getItem('periodList');
       if(periodList === null) {
         periodList = [];
       } else {
         periodList = JSON.parse(periodList);
       }
+
       this.state = {
         periodList: periodList,
         previousDate: startDate
       };
+
       this.addPeriod = this.addPeriod.bind(this);
       this.removePeriod = this.removePeriod.bind(this);
       this.clearTable = this.clearTable.bind(this);
@@ -44,11 +48,13 @@ export default class PeriodList extends Component {
     }
 
     removePeriod(key) {
+      let newPeriodList = this.state.periodList.filter((period, periodKey) => periodKey != key);
       this.setState((state) => {
         return {
-          periodList: this.state.periodList.filter((period, periodKey) => periodKey != key )
+          periodList: newPeriodList
         }
       });
+      localStorage.setItem('periodList', JSON.stringify(newPeriodList));
     }
 
     clearTable(event) {
@@ -60,12 +66,13 @@ export default class PeriodList extends Component {
                   }
             });
         }
+        localStorage.removeItem('periodList');
     }
   
     render() {
       console.log(this.state.periodList);
-      const periodList = this.state.periodList.map((period) => 
-        <Period name="test" startTime={period.startTime} endTime={period.endTime} removePeriod={this.removePeriod} />
+      const periodList = this.state.periodList.map((period, index) => 
+        <Period key={index} name="test" startTime={period.startTime} endTime={period.endTime} removePeriod={() => this.removePeriod(index)} />
       );
       return (
           <div className="periodList row">
