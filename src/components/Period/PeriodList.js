@@ -48,7 +48,7 @@ export default class PeriodList extends Component {
     }
 
     removePeriod(key) {
-      let newPeriodList = this.state.periodList.filter((period, periodKey) => periodKey != key);
+      let newPeriodList = this.state.periodList.filter((period, periodKey) => periodKey !== key);
       this.setState((state) => {
         return {
           periodList: newPeriodList
